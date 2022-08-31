@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="includes/header">
+
+
+    <title>Registration and Login</title>
+
+
+
+</head>
+<body>
+
+<!-- create navigation bar ( header) -->
+<nav th:replace="includes/navbar :: navbar"></nav>
+
+
+<br>
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 col-md-offset-3">
+
+            <h1>Login Page </h1>
+            <form th:action="@{/login}" method="post">
+
+                <!-- error message -->
+
+                <div class = "form-group">
+                    <label for ="email"> Email </label> :
+                    <input type="text" class = "form-control" id ="email" name = "email"
+                           placeholder="Enter Email ID" autofocus="autofocus">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>: <input type="password"
+                                                                   id="password" name="password" class="form-control"
+                                                                   placeholder="Enter Password" />
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit" name="login-submit" id="login-submit"
+                                   class="form-control btn btn-primary" value="Log in" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group">
+						<span>New user? <a href="/" th:href="@{/login}">Login
+								here</a></span>
+
+                <span>New user? <a href="/" th:href="@{/admin}">Admin
+								</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="includes/footer"></div>
+
+</body>
+</html>
