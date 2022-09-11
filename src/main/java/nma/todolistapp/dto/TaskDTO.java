@@ -3,6 +3,7 @@ package nma.todolistapp.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nma.todolistapp.enums.Status;
 
 @Data
 @NoArgsConstructor
@@ -10,5 +11,8 @@ import lombok.NoArgsConstructor;
 public class TaskDTO {
     private String title;
     private String description;
-    private String status;
+    //private Status status;
+
+    private Long user_id ;
+
 }

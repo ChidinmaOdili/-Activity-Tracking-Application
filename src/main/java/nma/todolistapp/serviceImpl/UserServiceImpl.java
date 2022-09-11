@@ -2,6 +2,7 @@ package nma.todolistapp.serviceImpl;
 
 import nma.todolistapp.dto.TaskDTO;
 import nma.todolistapp.dto.UserDTO;
+import nma.todolistapp.enums.Status;
 import nma.todolistapp.exception.TaskNotFoundException;
 import nma.todolistapp.exception.UserNotFoundException;
 import nma.todolistapp.model.Task;
@@ -12,36 +13,11 @@ import nma.todolistapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
-//    @Override
-//    public User save(UserDTO userRegistration) {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean login(String email, String password) {
-//        return false;
-//    }
-//
-//    Task createTask(TaskDTO taskDTO);
-//
-//    Task updateTitleAndDescription(TaskDTO taskDTO , int id);
-//
-//    Task getTaskById(int id);
-//
-//    List<Task> viewAllTasks();
-//
-//    boolean updateTaskStatus(String status, int id);
-//
-//    List<Task> viewAllTaskByStatus(String status);
-//
-//    boolean deleteById(int id);
-//    User getUserByEmail(String email);
-//
-//
-//}
 
 
     private final UserRepo userRepository;
@@ -82,15 +58,29 @@ public class UserServiceImpl implements UserService {
         Task task = new Task();
         task.setTitle(taskDTO.getTitle());
         task.setDescription(taskDTO.getDescription());
+        task.setStatus(Status.PENDING.name());
+        User user = getUserById(taskDTO.getUser_id());
+        task.setUser(user);
         return taskRepository.save(task);
     }
 
     @Override
-    public Task updateTitleAndDescription(TaskDTO taskDTO , int id) {
+    public User getUserById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("user not found"));
+    }
+
+    @Override
+    public Task updateTitleAndDescription(TaskDTO taskDTO ,Long id) {
         Task task = getTaskById(id);
         task.setTitle(taskDTO.getTitle());
         task.setDescription(taskDTO.getDescription());
-        return taskRepository.save(task);
+        task.setStatus(Status.PENDING.name());
+        if (task.equals(allTaskByUserId(id))) {
+
+        }
+            return taskRepository.save(task);
+
     }
 
     @Override
@@ -98,21 +88,50 @@ public class UserServiceImpl implements UserService {
         return taskRepository.findAll();
     }
 
+
     @Override
-    public List<Task> viewAllTaskByStatus(String status) {
-        return taskRepository.listOfTasksByStatus(status);
+    public List<Task> allTaskByUserId(Long id){
+        return  taskRepository.findAllByUser_id(id);
+    }
+
+
+    @Override
+    public List<Task> viewAllTaskByStatus(String status, Long user_id) {
+        return taskRepository.listOfTasksByStatus(status, user_id);
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Long id) {
         taskRepository.deleteById(id);
         return  true;
     }
 
+//    @Override
+//    public int updateTaskStatus(String status, int id){
+//        return taskRepository.updateTaskByIdAndStatus(status , id);
+//    }
+
+
     @Override
-    public boolean updateTaskStatus(String status, int id){
-        return taskRepository.updateTaskByIdAndStatus(status , id);
+    public Task markTaskCompleted(Long id){
+        Task task = getTaskById(id);
+        if (task.getStatus().equals(Status.IN_PROGRESS.name())){
+            task.setCompletedAt(LocalDateTime.now());
+            task.setStatus(Status.COMPLETED.name());
+        }
+
+        return  taskRepository.save(task);
     }
+
+    @Override
+    public List<Task> findAllByUser_idAndStatus(String status , Long user_id){
+        return taskRepository.listOfTasksByStatus(status, user_id);
+    }
+
+
+
+
+
 
     @Override
     public User getUserByEmail(String email) {
@@ -121,7 +140,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Task getTaskById(int id) {
+    public void updateStatus(Long id) {
+        Task task = getTaskById(id);
+        task.setStatus(Status.IN_PROGRESS.name());
+        System.out.println("1 Task: " + task);
+        taskRepository.save(task);
+    }
+
+    @Override
+    public Task getTaskById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException( "Task not found in the database"));
     }

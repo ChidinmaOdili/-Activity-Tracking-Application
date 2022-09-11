@@ -1,64 +1,315 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:insert="includes/header">-->
+<!--  <title>Product Management Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav th:replace="includes/navbar :: navbar"></nav>-->
+
+<!--<div class="container">-->
+<!--  <br>-->
+<!--  <button class="btn bg-dark text-white my-2 my-sm-0"> <a href="task.html" th:href="@{/addTask}">Add Product to Store</a></button>-->
+<!--  <br><br>-->
+<!--  <div class="card-header text-center bg-primary text-white">Product Management</div>-->
+
+<!--  <table class="table table-light">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--      <th scope="col">title</th>-->
+<!--      <th scope="col">description</th>-->
+<!--      <th scope="col">createdAt</th>-->
+<!--      <th scope="col">updatedAt</th>-->
+<!--      <th scope="col">status</th>-->
+<!--      <th scope="col">Update</th>-->
+<!--      <th scope="col">Delete</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each = "task:${tasks}">-->
+<!--      <td th:text="${task.getTitle()}"></td>-->
+<!--      <td th:text = "${task.getDescription()}"></td>-->
+<!--      <td th:text = "${task.getCreatedAt()}"></td>-->
+<!--      <td th:text = "${task.getUpdatedAt()}"></td>-->
+<!--      <td th:text="${task.getPending}"></td>-->
+<!--&lt;!&ndash;      <td th:text="${product.getPrice()}"></td>&ndash;&gt;-->
+<!--      <td>-->
+<!--&lt;!&ndash;        <form action="" method="post" class="form-inline">&ndash;&gt;-->
+<!--&lt;!&ndash;          <input type="hidden" name="id" value="<%=c.getId() %>" class="form-input">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="form-group d-flex justify-content-between">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="btn btn-sm btn-decre" href="QtyIncreDecreServlet?action=decre&id=<%= c.getId()%>"><i class="fas fa-minus-square"></i> </a>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="text" name="quantity" class="form-control" value="" th:text="${product.getQuantity()}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="btn btn-sm btn-incre" href="QtyIncreDecreServlet?action=incre&id=<%= c.getId()%>" ><i class="fas fa-plus-square"></i> </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </form>&ndash;&gt;-->
+<!--      </td>-->
+<!--      <td><a class="btn btn-sm btn-danger btn-primary" href="">Update</a> </td>-->
+<!--      <td><a class="btn btn-sm btn-danger btn-danger" href="">Delete</a> </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</div>-->
+
+<!--<div th:replace="includes/footer"></div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css} " />
+<head th:insert="includes/header">
+  <title>Home</title>
 </head>
-
 <body>
-<div class="container">
-  <h1 class="text-center">Todo List</h1>
-  <hr />
-  <br>
-  <button class="btn bg-dark text-white my-2 my-sm-0"> <a th:href="@{/addTask}">Create a New Task</a></button>
-  <br><br>
-  <div class="card-header text-center bg-primary text-white">Task Management</div>
+<nav th:replace="includes/navbar :: navbar"></nav>
 
 
-  <p th:text="|Happy ${today}|">Today</p>
-  <table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-      <th>Actions</th>
-      <th>Id</th>
-      <th>title</th>
-      <th>Description</th>
-      <th>createdAt</th>
-      <th>updatedAt</th>
-      <th>CompletedAt</th>
-<!--      <th>Created Date</th>-->
-<!--      <th>Modified Date</th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${addTask}" th:class="${item.complete} ? success : warning">
-      <td>
-        <div class="btn btn-group-sm" role="group">
-          <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
-          <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">Delete</a>
-          <a class="btn btn-danger" th:href="@{/update/{id}(id=${item.id})}">update</a>
+<!--<div class="container m-5 p-2 rounded mx-auto bg-light shadow">-->
+  <!-- App title section -->
+  <div class="row m-1 p-4">
+    <div class="col">
+      <div class="p-1 h1 text-primary text-center mx-auto display-inline-block">
+        <i class="fa fa-check bg-primary text-white rounded p-2"></i>
+        <u style="text-decoration: none">Task Manager</u>
+      </div>
+    </div>
+  </div>
+  <!-- Create todo section -->
+  <div class="row m-1 p-3">
+    <div class="col col-11 mx-auto">
+      <form method="POST"  th:action="@{/addTask}"th:object="${taskDetails}">
+        <div class="row bg-white rounded shadow-sm p-2 add-todo-wrapper align-items-center justify-content-center" >
+          <div class="col">
+<!--            <div th:each="task: ${tasks}" class="col-sm-6 col-md-4 col-lg-4">-->
+            <input class="form-control form-control-lg border-0 add-todo-input bg-transparent rounded" type="text" th:field="*{title}" placeholder="Task Title">
+            <input class="form-control form-control-lg border-0 add-todo-input bg-transparent rounded" type="hidden" th:value="${#session.getAttribute('id')}" name="user_id" placeholder="Task Title">
+          </div>
+          <div class="col">
+            <input class="form-control form-control-lg border-0 add-todo-input bg-transparent rounded" type="text" th:field="*{description}" placeholder="Description">
+          </div>
+          <!--                <div class="col-auto m-0 px-2 d-flex align-items-center">-->
+          <!--                    <label class="text-secondary my-2 p-0 px-1 view-opt-label due-date-label d-none">Due date not set</label>-->
+          <!--                    <i class="fa fa-calendar my-2 px-1 text-primary btn due-date-button" data-toggle="tooltip" data-placement="bottom" title="Set a Due date"></i>-->
+          <!--                    <i class="fa fa-calendar-times-o my-2 px-1 text-danger btn clear-due-date-button d-none" data-toggle="tooltip" data-placement="bottom" title="Clear Due date"></i>-->
+          <!--                </div>-->
+          <div class="col-auto px-0 mx-0 mr-2">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
         </div>
-      </td>
-      <td th:text="${item.id}">item_id</td>
-      <td th:text="${item.title}">item_title</td>
-      <td th:text="${item.description}">item_description</td>
-<!--      <td th:text="${item.complete}">item_complete</td>-->
-      <td th:text="${item.createdAt}">item_created_date</td>
-      <td th:text="${item.updatedAt}">item_updated_date</td>
-      <td th:text="${item.completedAt}">item_completed_date</td>
-<!--      <td th:text="${item.modifiedDate}">item_modified_date</td>-->
-    </tr>
-    </tbody>
-  </table>
-
-  <p><a class="btn btn-success" href="/create-todo">Add a Todo!</a></p>
+        </form>
+    </div>
+  </div>
+  <div class="p-2 mx-4 border-black-25 border-bottom"></div>
+  <!-- View options section -->
+  <div class="row m-1 p-3 px-5 justify-content-end">
+    <div class="col-auto d-flex align-items-center">
+<!--      <label class="text-secondary my-2 pr-2 view-opt-label">Filter</label>-->
+<!--      <select class="custom-select custom-select-sm btn my-2">-->
+<!--        <option value="all" selected >All</option>-->
+          <div>
+         <a th:href=" @{/task/{status}(status = 'COMPLETED')}">Completed</a>
+          <a th:href=" @{/task/{status}(status = 'IN_PROGRESS')}">Inprogress</a>
+          <a th:href=" @{/task/{status}(status = 'PENDING')}">pending</a>
+          <!--        <option value="has-due-date">Has due date</option>-->
 </div>
 
-<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.min.js}"></script>
-</body>
 
+
+<!--        <option value="completed"><a href=" @{/task/{status}(status = 'COMPLETED')}">Completed</a></option>-->
+<!--        <option value="active"><a href=" @{/task/{status}(status = 'IN_PROGRESS')}">Inprogress</a></option>-->
+<!--        <option value="active"><a href=" @{/task/{status}(status = 'PENDING')}">pending</a></option>-->
+<!--&lt;!&ndash;        <option value="has-due-date">Has due date</option>&ndash;&gt;-->
+      </select>
+    </div>
+    <div class="col-auto d-flex align-items-center px-1 pr-3">
+      <label class="text-secondary my-2 pr-2 view-opt-label">Sort</label>
+      <select class="custom-select custom-select-sm btn my-2">
+        <option value="added-date-asc" selected>Added date</option>
+        <option value="due-date-desc">Due date</option>
+      </select>
+      <i class="fa fa fa-sort-amount-asc text-info btn mx-0 px-0 pl-1" data-toggle="tooltip" data-placement="bottom" title="Ascending"></i>
+      <i class="fa fa fa-sort-amount-desc text-info btn mx-0 px-0 pl-1 d-none" data-toggle="tooltip" data-placement="bottom" title="Descending"></i>
+    </div>
+  </div>
+  <!-- Todo list section -->
+  <div class="row mx-1 px-5 pb-3 w-80">
+    <div class="col mx-auto">
+      <!-- Todo Item 1 -->
+      <div class="row px-3 align-items-center todo-item rounded">
+        <div class="col-auto m-1 p-0 d-flex align-items-center">
+          <h2 class="m-0 p-0">
+            <i class="fa fa-square-o text-primary btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Mark as complete"></i>
+            <i class="fa fa-check-square-o text-primary btn m-0 p-0 d-none" data-toggle="tooltip" data-placement="bottom" title="Mark as todo"></i>
+          </h2>
+          <tbody>
+              <tr th:each = "task:${tasks}">
+        </div>
+        <div class="col px-1 m-1 d-flex align-items-center">
+<!--          <h6 class="text my-2 pr-2">task</h6>-->
+        </div>
+        <div class="col-auto m-1 p-0 px-0">
+          <div class="col-auto d-flex align-items-center ">
+            <!--                            <i class="fa fa-hourglass-2 my-2 px-2 text-warning btn-small" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Due on date"></i>-->
+<!--            <h6 class="text my-2 pr-2">createdAt</h6>-->
+          </div>
+        </div>
+        <div class="col-auto m-1 p-0 px-3">
+          <div class="col-auto d-flex align-items-center">
+            <!--                            <i class="fa fa-hourglass-2 my-2 px-2 text-warning btn-small" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Due on date"></i>-->
+<!--            <h6 class="text my-2 pr-2">updatedAt</h6>-->
+          </div>
+        </div>
+        <div class="col-auto m-3 p-0 todo-actions">
+          <div class="col-auto px-0 mx-3 mr-2">
+<!--            <h6 class="text my-2 pr-2">status</h6>-->
+
+
+<!--              <li class="nav-item nav__item mb-4">-->
+<!--                  <a class="nav-link" th:href="@{/user/task/{status}(status='pending')}">-->
+<!--                      <i class="bi bi-pause-circle"></i>-->
+<!--                      Pending Task-->
+<!--                  </a>-->
+<!--              </li>-->
+
+
+
+
+
+          </div>
+        </div>
+        <div class="col-auto m-1 p-0 todo-actions">
+          <div class="row d-flex align-items-center justify-content-end">
+            <div class="col-auto px-0 mx-3 mr-2">
+              <h6 class="text my-2 pr-2">Actions</h6>
+            </div>
+<!--          </div>-->
+
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      &lt;!&ndash; Todo Item 2 &ndash;&gt;-->
+<!--      <div class="row px-3 align-items-center todo-item rounded">-->
+<!--        <div class="col-auto m-1 p-0 d-flex align-items-center">-->
+<!--          <h2 class="m-0 p-0">-->
+<!--            <i class="fa fa-square-o text-primary btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Mark as complete"></i>-->
+<!--            <i class="fa fa-check-square-o text-primary btn m-0 p-0 d-none" data-toggle="tooltip" data-placement="bottom" title="Mark as todo"></i>-->
+<!--          </h2>-->
+<!--        </div>-->
+<!--        <div class="col px-1 m-1 d-flex align-items-center">-->
+<!--          <input type="text" class="form-control form-control-lg border-0 edit-todo-input bg-transparent rounded px-3" readonly value="Renew car insurance" title="Renew car insurance" />-->
+<!--          <input type="text" class="form-control form-control-lg border-0 edit-todo-input rounded px-3 d-none" value="Renew car insurance" />-->
+<!--        </div>-->
+<!--        <div class="col-auto m-1 p-0 px-0">-->
+<!--          <div class="col-auto d-flex align-items-center rounded bg-white border border-warning">-->
+<!--            &lt;!&ndash;                            <i class="fa fa-hourglass-2 my-2 px-2 text-warning btn-small" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Due on date"></i>&ndash;&gt;-->
+<!--            <h6 class="text my-2 pr-2">28th Jun 2020</h6>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-auto m-1 p-0 px-3">-->
+<!--          <div class="col-auto d-flex align-items-center rounded bg-white border border-warning">-->
+<!--            &lt;!&ndash;                            <i class="fa fa-hourglass-2 my-2 px-2 text-warning btn-small" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Due on date"></i>&ndash;&gt;-->
+<!--            <h6 class="text my-2 pr-2">28th Jun 2020</h6>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-auto m-3 p-0 todo-actions">-->
+<!--          <div class="progress row d-flex align-items-center justify-content-left">-->
+<!--            <div class="progress-bar progress-bar-danger col-auto px-0 mx-0 mr-2" role="progressbar" aria-valuenow="70"-->
+<!--                 aria-valuemin="0" aria-valuemax="100" style="width:70%">-->
+<!--              70% Complete (danger)-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-auto m-1 p-0 todo-actions">-->
+<!--          <div class="row d-flex align-items-center justify-content-end">-->
+<!--            <div class="col-auto px-0 mx-3 mr-2">-->
+<!--              <button type="button" class="btn btn-primary" >Edit</button>-->
+<!--            </div>-->
+<!--            <div class="col-auto px-0 mx-0 mr-2">-->
+<!--              <button type="button" class="btn btn-danger"></button>-->
+<!--            </div>-->
+<!--          </div>-->
+
+        </div>
+
+      </div>
+      <!-- Todo Item 3 -->
+      <table class="table table-light" style="width:100%" >
+        <thead>
+        <tr>
+          <th scope="col" style="width: 10%">Title</th>
+          <th scope="col" style="width: 10%">Description</th>
+          <th scope="col" style="width: 10%">CreatedAt</th>
+          <th scope="col" style="width: 10%">Updated</th>
+          <th scope="col" style="width: 10%">CompletedAt</th>
+          <th scope="col" style="width: 10%">Status</th>
+          <th scope="col" style="width: 10%">Start</th>
+          <th scope="col" style="width: 10%">End</th>
+          <th scope="col" style="width: 10%">Update</th>
+          <th scope="col" style="width: 10%">Delete</th>
+        </tr>
+        </thead>
+        <tbody  th:each = "eachtask: ${tasks}">
+        <tr>
+          <td style="width: 10%" th:text="${eachtask.getTitle()}"></td>
+          <td style="width: 10%" th:text="${eachtask.getDescription()}"></td>
+          <td style="width: 10%" th:text="${eachtask.createdAt}"></td>
+          <td style="width: 10%" th:text="${eachtask.updatedAt}"></td>
+          <td style="width: 10%" th:text="${eachtask.completedAt}"></td>
+          <td style="width: 10%" th:text="${eachtask.status}">
+          </td>
+            <td style="width: 10%">
+                <div th:if="${eachtask.status.equals('PENDING') || eachtask.status.equals('IN_PROGRESS')  }" class="col-auto px-0 mx-3 mr-2">
+                    <a class="btn btn-primary"  th:href="@{start/{id}(id=${eachtask.id})}">Start</a>
+                </div>
+            </td >
+          <td style="width: 10%">
+            <div th:if="${eachtask.status.equals('PENDING') || eachtask.status.equals('IN_PROGRESS')  }" class="col-auto px-0 mx-3 mr-2">
+              <a class="btn btn-primary"  th:href="@{end/{id}(id=${eachtask.id})}">End</a>
+            </div>
+          </td >
+            <td style="width: 10%">
+                <div class="col-auto px-0 mx-3 mr-2">
+                    <!--              <a class="btn btn-primary"  th:href="@{update-task/{id}(id=${eachtask.getTask_id()})}">Edit</a>-->
+                    <a class="btn btn-primary"  th:href="@{edit/{id}(id=${eachtask.id})}">Update</a>
+                </div>
+            </td >
+          <td style="width: 10%">
+            <div class="col-auto px-0 mx-0 mr-2">
+              <a class="btn btn-danger"  th:href="@{delete/{id}(id=${eachtask.id})}">Del</a>
+<!--              <a class="btn btn-danger" th:href="@{delete-task/{id}(id=${eachtask.getTask_id()})}">Delete</a>-->
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!--</div>-->
+<div th:replace="includes/footer"></div>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ import nma.todolistapp.dto.TaskDTO;
 import nma.todolistapp.dto.UserDTO;
 import nma.todolistapp.model.Task;
 import nma.todolistapp.model.User;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -17,19 +18,33 @@ User registerUser(UserDTO userDTO);
 
     Task createTask(TaskDTO taskDTO);
 
-    Task updateTitleAndDescription(TaskDTO taskDTO , int id);
+    User getUserById(Long id);
 
-    Task getTaskById(int id);
+    Task updateTitleAndDescription(TaskDTO taskDTO , Long id);
+
+    Task markTaskCompleted(Long id);
+
+    List<Task> allTaskByUserId(Long id);
+
+
+    Task getTaskById(Long id);
 
     List<Task> viewAllTasks();
 
-    boolean updateTaskStatus(String status, int id);
+//    int updateTaskStatus(String status, int id);
 
-    List<Task> viewAllTaskByStatus(String status);
+    List<Task> viewAllTaskByStatus(String status, Long user_id);
 
-    boolean deleteById(int id);
+    //List<Task> findAllByUser_idAndStatus(Long user_id , String status);
+
+    boolean deleteById(Long id);
+
+    List<Task> findAllByUser_idAndStatus(String status , Long user_id);
+
     User getUserByEmail(String email);
 
+
+    void updateStatus(Long id);
 }
 
 

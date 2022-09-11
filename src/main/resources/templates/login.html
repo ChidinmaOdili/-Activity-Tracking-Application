@@ -20,7 +20,7 @@
         <div class = "col-md-6 col-md-offset-3">
 
             <h1>Login Page </h1>
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/loginUser}" method="post">
 
                 <!-- error message -->
 
@@ -46,11 +46,11 @@
                 </div>
             </form>
             <div class="form-group">
-						<span>New user? <a href="/" th:href="@{/login}">Login
+						<span>New user? <a href="/" th:href="@{/register}">Register
 								here</a></span>
 
-                <span>New user? <a href="/" th:href="@{/admin}">Admin
-								</a></span>
+<!--                <span>New user? <a href="/" th:href="@{/admin}">Admin-->
+<!--								</a></span>-->
             </div>
         </div>
     </div>
